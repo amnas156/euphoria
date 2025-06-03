@@ -1,0 +1,57 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account</title>
+    <link rel="icon" href="{% static 'img/Euphoria.svg' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/tailwindcss.js' %}"></script>
+</head>
+<body class="overflow-hidden">
+    <div class="w-full h-screen bg-gray-100">
+        <div class="container mx-auto">
+            <div class="w-4/5 py-16 mx-auto text-left">
+                <a class="text-xl" href="{% url 'web:home' %}">Home</a>
+                <span class="text-xl">/Account</span>
+            </div>
+        </div>
+        <div class="w-full h-full ">
+            <div class="text-center bg-black w-1/2 h-1/2 mx-auto rounded-2xl " >
+            {% if user.is_authenticated %}
+            <div class="w-full h-full flex items-center justify-center ">
+                <div>
+                    <div class="w-16 h-16  bg-gray-100 rounded-full flex items-center justify-center mx-auto overflow-hidden">
+                        {% if profile.photo %}
+                        <a href="{% url 'web:upload_photo' %}"><img src="{{ profile.photo.url }}" alt="{{ profile.user.username }}" class="w-32 h-32 rounded-full object-cover"></a>
+                        {% else %}
+                        <a href="{% url 'web:upload_photo' %}"><img src="{% static 'img/profile.svg' %}" alt="Default Avatar" class="w-16 h-16 rounded-full object-cover"></a>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <div class="w-full  h-8 bg-gray-100 my-4 rounded-xl flex ">
+                            <img class="w-4 ml-4" src="{% static 'img/profile.svg' %}" alt="">
+                            <p class="text-gray-700 ml-2 mt-1">{{ user.username }}</p>
+                        </div>
+                        <div class="w-full h-8 bg-gray-100 my-2 rounded-xl flex ">
+                            <img class="w-4 ml-4" src="{% static 'img/mail.svg' %}" alt="">
+                            <p class="text-gray-700 ml-2 mt-1">{{ user.email }}</p>
+                        </div>
+                        <a class="text-gray-700 py-2 px-4 bg-gray-100 rounded-full  " href="{% url 'web:logout'%}">LOGOUT</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+                <div class="w-full h-full flex items-center justify-center">
+                    <p class="text-white ">You're not logged in</p>
+                    <a  class="text-blue-500 ml-2"  href="{% url 'login' %}">LOGIN</a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <script>
+        
+    </script>
+</body>
+</html>

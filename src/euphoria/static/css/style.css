@@ -1,0 +1,67 @@
+@font-face {
+    font-family: 'Causten';
+    src: url('../font/Causten-Light.woff2') format('woff2'),
+        url('../font/Causten-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Core Sans C 45';
+    src: url('../font/CoreSansC-45Regular.woff2') format('woff2'),
+        url('../font/CoreSansC-45Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Core Sans C 65';
+    src: url('../font/CoreSansC-65Bold.woff2') format('woff2'),
+        url('../font/CoreSansC-65Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+}
+
+
+:root { 
+    --background-color: #FFFFFF; 
+    --default-color: #3C4242;
+    --heading-color: #FFFFFF;
+    --surface-color: #F6F6F6;
+    --light-color: #F6F6F6;
+    --border-color: #BEBCBD;
+}
+
+:root {
+    --heading-font: 'Core Sans C 65';
+    --default-font: 'Core Sans C 45';
+    --nav-font: 'Causten';
+}
+:root {
+    --nav-color: #807D7E;  
+    --nav-hover-color: #3C4242;
+}
+a,::placeholder,input,p,div{
+    font-family: var(--nav-font);
+}
+h1,h2,h3,h4,h5,h6{
+    font-family: var(--heading-font);
+}
+span,button{
+    font-family: var(--default-font);
+}
+
+.mySlides {
+    display: none;  }
+
+.form input{
+    width: 100%;
+}
+.no-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+.no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}

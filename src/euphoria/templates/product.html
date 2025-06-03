@@ -1,0 +1,502 @@
+    {% load static %}
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>{{product.name}}</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+        <link rel="icon" href="{% static 'img/Euphoria.svg' %}" />
+        <script src="{% static 'js/tailwindcss.js' %}"></script>
+    </head>
+    <body class="w-full overflow-x-hidden">
+        <!-- Header -->
+         <header class="w-full overflow-x-hidden px-4 sm:px-6 lg:px-8">
+        <div class="w-[90%] mx-auto flex justify-between items-center py-4">
+            <div class="flex gap-4">
+            <div class="lg:hidden " id="menuBar">
+                <img src="{% static 'img/menu.svg' %}" alt="" />
+            </div>
+            <a class="" href="">
+                <img class="26px"  src="{% static 'img/Euphoria.svg' %}" alt="" />
+            </a>
+            </div>
+            <div class="hidden lg:flex space-x-6">
+            <a class="text-xl  text-gray-600" href="">Shop</a>
+            <a class="text-xl text-gray-600" href="">Men</a>
+            <a class="text-xl text-gray-600" href="">Women</a>
+            <a class="text-xl text-gray-600" href="">Combos</a>
+            <a class="text-xl text-gray-600" href="">Joggers</a>
+            </div>
+            <div class=" hidden md:flex  border border-gray-300 rounded-lg py-2 px-4 "  id="searchBar">
+            <img class="mx-1.5" src="{% static 'img/search.svg' %}" alt="" />
+            <input type="search" placeholder="Search" class="border-none" />
+            </div>
+            <div class="flex gap-2">
+            <span class="md:hidden"  onclick="toggleSearch()"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/search.svg' %}" alt="" /></span>
+            {% if user.is_authenticated %} 
+            <a href="{% url 'web:wishlistPage' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/wishlist.svg' %}" alt="" /></a>
+            {% else %}
+            <a href="{% url 'login' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/wishlist.svg' %}" alt="" /></a>
+            {% endif %}
+            <a href="{% url 'web:account' %}" id="profile">
+                {% if profile and profile.photo %}
+                    <img src="{{ profile.photo.url }}" alt="profile photo" class="w-8 h-8 rounded-lg object-cover" />
+                {% else %}
+                    <a href="{% url 'web:upload_photo' %}">
+                    <img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/profile.svg' %}" alt="Default Avatar" />
+                    </a>
+                {% endif %}
+            </a>
+            {% if user.is_authenticated %} 
+            <a href="{% url 'web:cart' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/add-cart.svg' %}" alt="" /></a>
+            {% else %}
+            <a href="{% url 'login' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/add-cart.svg' %}" alt="" /></a>
+            {% endif %}
+            </div>
+        </div>
+        <div class="hidden md:hidden bg-gray-700 text-center w-full " id="Toggle">
+            <img id="toggle-close" class="h-8" src="{% static 'img/close.svg' %}" alt="" />
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Shop</a>
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Men</a>
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Women</a>
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Combos</a>
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Joggers</a>
+        </div>
+    </header>
+        <!-- /Header -->
+        <!-- product -->
+        <div class="w-full my-8">
+            <div id="login-popup" class="hidden fixed top-[40%] left-[50%] bg-black w-96 h-36 flex justify-center items-center text-center rounded-xl">
+                <div class="text-white my-14 text-lg">
+                    <p>You need to <a class="text-blue-500 font-bold" href="{% url 'login' %}">login</a> to perform this action.</p>
+                    <button class="text-red-500 bg-white rounded-lg" onclick="closeLoginPopup()">Close</button>
+                </div>
+            </div>
+        <div class="w-full lg:h-[720px] xl:h-[785px]  lg:flex">
+            <div class="md:w-full lg:w-1/2 h-full md:flex">
+            <div class="bg-[#F6F6F6] h-full flex md:w-1/4">
+                <div class="my-auto ml-8 mr-4">
+                <ul class="flex md:block md:h-[360px]">
+                    {% for product in all_product %}
+                        <a href="{% url 'web:product' product.id %}">
+                            <li>
+                            <img
+                                class="w-16 h-16 my-2 mx-2"
+                                src="{{product.image.url}}"
+                                alt=""
+                            />
+                            </li>
+                        </a>
+                    {% endfor %}
+                </ul>
+                </div>
+            </div>
+            <div class="md:w-3/4">
+                <img
+                class="w-full lg:h-full md:h-[360px]"
+                src="{{ product.image.url }}"
+                alt="{{product.name}}"
+                />
+            </div>
+            </div>
+            <div class="lg:w-1/2 md:ml-24 ml-2">
+            <div class="pt-4 text-left flex gap-4 text-[#807D7E]">
+                <a
+                class="text-2xl md:text-3xl lg:text-2xl xl:text-3xl"
+                href="{% url 'web:home' %}"
+                >Home</a
+                >
+                <img src="{% static 'img/left (Stroke).svg' %}" alt="" />
+                <a
+                class="text-2xl md:text-3xl lg:text-2xl xl:text-3xl"
+                href="{% url 'web:home' %}"
+                >Home</a
+                >
+                <img src="{% static 'img/left (Stroke).svg' %}" alt="" />
+                <a
+                class="text-2xl md:text-3xl lg:text-2xl xl:text-3xl"
+                href="{% url 'web:home' %}"
+                >Home</a
+                >
+            </div>
+            <h1 class="text-3xl md:text-5xl lg:text-3xl xl:text-5xl w-4/5 my-6">
+                {{product.name}}
+            </h1>
+            <div class="w-full flex gap-16 text-[#807D7E]">
+                <div class="flex gap-2">
+                <img class="w-38" src="{% static 'img/Frame 10.png' %}" alt="star" />
+                <span class="text-xl">{{product.rating}}</span>
+                </div>
+                <div class="flex gap-2">
+                <img
+                    class="h-8 w-8"
+                    src="{% static 'img/message.svg' %}"
+                    alt=""
+                />
+                <span class="text-sm md:text-xl whitespace-nowrap"
+                    >{{product.comment_count}} comment</span
+                >
+                </div>
+            </div>
+            <div class="my-6 flex gap-8">
+                <span class="text-2xl md:text-2xl lg:text-xl xl:text-2xl"
+                >Select Size</span
+                >
+                <div class="flex gap-4">
+                <span
+                    class="text-2xl md:text-2xl lg:text-xl xl:text-2xl text-[#807D7E]"
+                    >Size Guide</span
+                >
+                <img
+                    class="w-8 h-4 md:w-auto md:h-auto"
+                    src="{% static 'img/arrow2.svg' %}"
+                    alt=""
+                />
+                </div>
+            </div>
+            <div class="flex gap-2">
+                <div
+                class="w-8 h-8 rounded-lg md:w-12 lg:w-10 xl:w-12 md:h-12 lg:h-10 xl:h-12 items-center flex justify-centern border border-gray-300 md:rounded-2xl lg:rounded-xl xl:rounded-2xl"
+                >
+                <span class="lg:text-lg :text-xl mx-auto">XS</span>
+                </div>
+                <div
+                class="w-8 h-8 rounded-lg md:w-12 lg:w-10 xl:w-12 md:h-12 lg:h-10 xl:h-12 items-center flex justify-centern border border-gray-300 md:rounded-2xl lg:rounded-xl xl:rounded-2xl"
+                >
+                <span class="lg:text-lg :text-xl mx-auto">S</span>
+                </div>
+                <div
+                class="w-8 h-8 rounded-lg md:w-12 lg:w-10 xl:w-12 md:h-12 lg:h-10 xl:h-12 items-center flex justify-centern border border-gray-300 md:rounded-2xl lg:rounded-xl xl:rounded-2xl"
+                >
+                <span class="lg:text-lg :text-xl mx-auto">M</span>
+                </div>
+                <div
+                class="w-8 h-8 rounded-lg md:w-12 lg:w-10 xl:w-12 md:h-12 lg:h-10 xl:h-12 items-center flex justify-centern border border-gray-300 md:rounded-2xl lg:rounded-xl xl:rounded-2xl"
+                >
+                <span class="lg:text-lg :text-xl mx-auto">L</span>
+                </div>
+                <div
+                class="w-8 h-8 rounded-lg md:w-12 lg:w-10 xl:w-12 md:h-12 lg:h-10 xl:h-12 items-center flex justify-centern border border-gray-300 md:rounded-2xl lg:rounded-xl xl:rounded-2xl"
+                >
+                <span class="lg:text-lg :text-xl mx-auto">XL</span>
+                </div>
+            </div>
+            <div class="my-6">
+                <span class="md:text-2xl lg:text-xl xl:text-2xl"
+                >Colours Available
+                </span>
+                <ul class="flex gap-2 mt-4">
+                <li class="bg-[#3C4242] rounded-full w-8 h-8"></li>
+                <li class="bg-[#3C4242] rounded-full w-8 h-8"></li>
+                <li class="bg-[#3C4242] rounded-full w-8 h-8"></li>
+                <li class="bg-[#3C4242] rounded-full w-8 h-8"></li>
+                </ul>
+            </div>
+            <div class="flex gap-8 mr-2 md:mr-24 border-b border-gray-300">
+                <div
+                class="flex gap-2 bg-[#8A33FD] rounded-lg w-40 h-10 items-center flex justify-centern"
+                >
+                <img
+                    class="w-8 h-6 ml-2"
+                    src="{% static 'img/add-cart-2.svg' %}"
+                    alt=""
+                />
+                {% if user.is_authenticated %}
+                <form method="post" action="{% url 'web:add_to_cart' product.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="text-lg text-white">Add to cart</button>
+                </form>
+                {% else %}
+                    <button type="button" class="text-lg text-white" onclick="showLoginPopup()">Add to cart</button>
+                {% endif %}
+                </div>
+                <span
+                class="py-2 px-12 border border-gray-300 text-lg rounded-lg mb-8"
+                >$ {{product.price}}</span
+                >
+            </div>
+            <div
+                class="my-4 text-center md:my-8 lg:my-4 xl:my-8 grid md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 lg:gap-2 xl:gap-6"
+            >
+                <div class="items-center flex justify-centern text-lg gap-4">
+                <img src="{% static 'img/payment.svg' %}" alt="" />
+                <span class="text-lg">Secure payment</span>
+                </div>
+                <div class="items-center flex justify-centern text-lg gap-4">
+                <img src="{% static 'img/size.svg' %}" alt="" />
+                <span class="text-lg">Size & Fit</span>
+                </div>
+                <div class="items-center flex justify-centern text-lg gap-4">
+                <img src="{% static 'img/shippping.svg' %}" alt="" />
+                <span class="text-lg">Free shipping</span>
+                </div>
+                <div class="items-center flex justify-centern text-lg gap-4">
+                <img src="{% static 'img/returns.svg' %}" alt="" />
+                <span class="text-lg">Free Shipping & Returns</span>
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="lg:flex gap-12 w-[90%] mx-auto my-16">
+            <div class="w-full lg:w-1/2">
+            <div class="flex gap-4 my-8">
+                <img src="{% static 'img/icon.svg' %}" alt="" />
+                <span class="md:text-2xl lg:text-xl xl:text-2xl font-semibold"
+                >Product Description</span
+                >
+            </div>
+            <ul class="flex md:gap-8 lg:gap-4 xl:gap-8">
+                <li class="border-b border-[#000000]">
+                <span class="md:text-lg lg:text-base xl:text-lg">Description</span>
+                </li>
+                <li class="flex gap-2">
+                    <span class="md:text-lg lg:text-base xl:text-lg lg:whitespace-nowrap">User comments</span>
+                    <div class="md:w-8 lg:w-6 xl:w-8 md:h-8 lg:h-6 xl:h-8 bg-[#8A33FD] rounded-lg flex justify-center text-center items-center">
+                    <span class="lg:text-sm xl:text-base text-white">21</span>
+                </div>
+                </li>
+                <li class="flex gap-2">
+                <span class="md:text-lg lg:text-base xl:text-lg lg:whitespace-nowrap"
+                    >Question & Answer</span
+                >
+                <div
+                    class="md:w-8 lg:w-6 xl:w-8 md:h-8 lg:h-6 xl:h-8 bg-[#8A33FD] rounded-lg flex justify-center text-center items-center"
+                >
+                    <span class="lg:text-sm xl:text-base text-white">21</span>
+                </div>
+                </li>
+            </ul>
+            <div class="my-4">
+                <p class="text-lg text-[#807D7E]">
+                {{product.description}}
+                </p>
+            </div>
+            <div class="hidden my-4">
+                <p class="text-lg text-[#807D7E]">
+                100% Bio-washed Cotton – makes the fabric extra soft & silky.
+                Flexible ribbed crew neck. Precisely stitched with no pilling & no
+                fading. Provide all-time comfort. Anytime, anywhere. Infinite
+                range of matte-finish HD prints.
+                </p>
+            </div>
+            <div class="hidden my-4">
+                <p class="text-lg text-[#807D7E]">
+                100% Bio-washed Cotton – makes the fabric extra soft & silky.
+                Flexible ribbed crew neck. Precisely stitched with no pilling & no
+                fading. Provide all-time comfort. Anytime, anywhere. Infinite
+                range of matte-finish HD prints.
+                </p>
+            </div>
+            </div>
+            <div class="my-8 lg:w-1/2 w-full bg-[#F6F6F6] rounded-lg">
+            <table class="w-[90%] lg:w-full xl:w-[90%] mx-auto">
+                <tr class="border-b">
+                <td class="border-r p4">
+                    <div class="">
+                    <span class="text-2xl lg:text-xl xl:text-2xl text-gray-300">Fabric</span>
+                    <br />
+                    <span class="text-xl lg:text-base xl:text-xl">Bio-washed Cotton</span>
+                    </div>
+                </td>
+                <td class="p-4 border-r">
+                    <div class="">
+                    <span class="text-2xl lg:text-xl xl:text-2xl text-gray-300">Pattern</span>
+                    <br />
+                    <span class="text-xl lg:text-base xl:text-xl">Printed</span>
+                    </div>
+                </td>
+                <td class="p-4">
+                    <div class="">
+                    <span class="text-2xl lg:text-xl xl:text-2xl text-gray-300">Fit</span>
+                    <br />
+                    <span class="text-xl lg:text-base xl:text-xl">Regular-fit</span>
+                    </div>
+                </td>
+                </tr>
+                <tr class="">
+                <td class="border-r p4">
+                    <div class="">
+                    <span class="text-2xl lg:text-xl xl:text-2xl text-gray-300">Neck</span>
+                    <br />
+                    <span class="text-xl lg:text-base xl:text-xl">Round Neck</span>
+                    </div>
+                </td>
+                <td class="p-4 border-r">
+                    <div class="">
+                    <span class="text-2xl lg:text-xl xl:text-2xl text-gray-300">Sleeve</span>
+                    <br />
+                    <span class="text-xl lg:text-base xl:text-xl">Half-sleeves</span>
+                    </div>
+                </td>
+                <td class="p-4">
+                    <div class="">
+                    <span class="text-2xl lg:text-xl xl:text-2xl text-gray-300">Style</span>
+                    <br />
+                    <span class="text-xl lg:text-base xl:text-xl">Casual Wear</span>
+                    </div>
+                </td>
+                </tr>
+            </table>
+            </div>
+        </div>
+        <div class="w-[90%] mx-auto">
+            <div class="flex gap-4 my-8">
+            <img src="{% static 'img/icon.svg' %}" alt="" />
+            <span class="text-2xl font-semibold">Similar Products</span>
+            </div>
+            <div class="w-[90%] mx-auto">
+                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
+                    {% for product in same_category %}
+                    <a href="{% url 'web:product' product.id %}">
+                    <div>
+                        <div class="relative inline-block ">
+                            <img class="w-full h-96 rounded-lg" src="{{ product.image.url }}" alt="{{ product.name }}" >
+                            <div class="absolute top-2 right-2">
+                                {% if user.is_authenticated %}
+                                    {% if product.id in user_wishlist %}
+                                        <form method="post" action="{% url 'web:wishlist' product.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit">
+                                                <img class="p-2 rounded-full  bg-red-400" src="{% static 'img/wishlist.svg' %}" alt="wishlistIcon">
+                                            </button>
+                                        </form>
+                                    {% else %}
+                                        <form method="post" action="{% url 'web:wishlist' product.id %}">
+                                            {% csrf_token %}
+                                            <button type="submit">
+                                                <img class="p-2 rounded-full  bg-gray-300" src="{% static 'img/wishlist.svg' %}" alt="wishlistIcon">
+                                            </button>
+                                        </form>
+                                    {% endif %}
+                                {% else %}
+                                        <form method="post" action="{% url 'login'%}">
+                                            {% csrf_token %}
+                                            <button type="submit">
+                                                <img class="p-2 rounded-full  bg-gray-300" src="{% static 'img/wishlist.svg' %}" alt="wishlistIcon">
+                                            </button>
+                                        </form>
+                                {% endif %}
+                            </div>
+                            <div class="my-2 relative">
+                                <span class="text-base">{{ product.name }}</span>
+                                <br/>
+                                <span class="text-sm text-gray-500">{{ product.brand }}</span>
+                                <div class="w-16 h-8 bg-[#F6F6F6] absolute top-2 right-2 rounded-lg flex justify-center items-center">
+                                    <span>${{ product.price }}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+                    {% endfor %}
+                </div>
+            </div>
+            </div>
+        </div>
+        </div>
+        <!-- /product -->
+        <!-- Footer -->
+        <footer class="bg-gray-900 text-gray-300 py-12">
+        <div
+            class="w-[90%] mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-4 gap-8 border-b-[1px] border-[#BEBCBD]"
+        >
+            <div>
+            <h4 class="text-lg font-semibold text-white mb-4">Need Help</h4>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                <li><a href="#" class="hover:text-white">Track Order</a></li>
+                <li><a href="#" class="hover:text-white">Returns & Refunds</a></li>
+                <li><a href="#" class="hover:text-white">FAQs</a></li>
+                <li><a href="#" class="hover:text-white">Career</a></li>
+            </ul>
+            <div class="mt-16">
+                <div class="flex gap-4">
+                <a href=""
+                    ><img src="{% static 'img/facebook.svg' %}" alt=""
+                /></a>
+                <a href=""
+                    ><img src="{% static 'img/instagram.svg' %}" alt=""
+                /></a>
+                <a href=""><img src="{% static 'img/twitter.svg' %}" alt="" /></a>
+                <a href=""
+                    ><img src="{% static 'img/linkedin.svg' %}" alt=""
+                /></a>
+                </div>
+            </div>
+            </div>
+            <div>
+            <h4 class="text-lg font-semibold text-white mb-4">Company</h4>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-white">About Us</a></li>
+                <li><a href="#" class="hover:text-white">Euphoria Blog</a></li>
+                <li><a href="#" class="hover:text-white">Collaboration</a></li>
+                <li><a href="#" class="hover:text-white">Media</a></li>
+            </ul>
+            </div>
+            <div>
+            <h4 class="text-lg font-semibold text-white mb-4">More Info</h4>
+            <ul class="space-y-2">
+                <li>
+                <a href="#" class="hover:text-white">Terms and Conditions</a>
+                </li>
+                <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                <li><a href="#" class="hover:text-white">Shipping Policy</a></li>
+                <li><a href="#" class="hover:text-white">Sitemap</a></li>
+            </ul>
+            </div>
+            <div>
+            <h4 class="text-lg font-semibold text-white mb-4">Location</h4>
+            <p class="text-sm">support@euphoria.in</p>
+            <p class="text-sm">Eklingpura Chouraha, Ahmedabad Main Road</p>
+            <p class="text-sm">
+                INH 8 - Near Mahadev Hotel, Udaipur, India- 313002
+            </p>
+            <div class="mt-16">
+                <h4 class="text-lgvmd:text-sm font-semibold text-white mt-6 mb-4">
+                Download The App
+                </h4>
+                <div class="flex gap-2">
+                <img
+                    src="{% static 'img/google-play.svg' %}"
+                    alt="Google Play"
+                    class="w-24 md:w-16"
+                />
+                <img
+                    src="{% static 'img/app-store.svg' %}"
+                    alt="App Store"
+                    class="w-24 md:w-16"
+                />
+                </div>
+            </div>
+            </div>
+        </div>
+        <div class="w-[90%] mx-auto">
+            <select
+            class="w-full py-4 bg-transparent border-b-[1px] border-b-[#BEBCBD] text-2xl font-extrabold"
+            name=""
+            id=""
+            >
+            <option class="w-50 text-black text-2xl" value="">
+                Popular Categories
+            </option>
+            <option class="w-50 bg-white text-black" value="">
+                Popular Categories
+            </option>
+            </select>
+        </div>
+        <div class="text-center text-sm text-gray-500 mt-8">
+            <p>Copyright © 2023 Euphoria Folks Pvt Ltd. All rights reserved.</p>
+        </div>
+        </footer>
+        <!-- /Footer -->
+        <script>
+            function showLoginPopup() {
+                document.getElementById("login-popup").style.display="block";
+            }
+            function closeLoginPopup(){
+                document.getElementById("login-popup").style.display="none";
+            }
+        </script>
+    </body>
+    </html>

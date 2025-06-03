@@ -1,0 +1,88 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup</title>
+    <link rel="icon" href="{% static 'img/Euphoria.svg' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/tailwindcss.js' %}"></script>
+    <style>
+    .form input{
+        width: 100%;
+        background: transparent;
+        text-align: center;
+        outline: none;
+    }
+    .profile input{
+        color: transparent;
+    }
+    .form input:focus{
+        outline: transparent;
+        background: transparent;
+    }
+    .form input ::placeholder{
+        background-color: transparent;
+        position: absolute;
+        right: 0;
+    }
+    </style>
+</head>
+<body class="overflow-hidden">
+    <div class="w-full h-screen  bg-gray-100">
+        <div class="w-4/5 py-16 w-[90%] mx-auto  text-left">
+            <a class="text-xl" href="{% url 'web:home' %}">Home</a>
+            <span class="text-xl">/Signup</span>
+        </div>
+        <div class="text-center bg-black container mx-auto rounded-2xl " >
+        <h3 class="text-6xl text-white">Signup</h3>
+        <form action="" method="POST">
+            {% csrf_token %}
+            <div class=" 
+            form w-2/3 bg-gray-100 text-center rounded-lg px-4 py-2 mx-auto my-4">
+            {{form.username}}
+            </div>
+            <div class="
+            form w-2/3 bg-gray-100 text-center rounded-lg px-4 py-2 mx-auto my-4">
+            {{form.email}}
+            </div>
+            <div class="
+            form w-2/3 bg-gray-100 text-center rounded-lg px-4 py-2 mx-auto my-4">
+            {{form.password1}}
+            </div>
+            <div class="
+            form w-2/3 bg-gray-100 text-center rounded-lg px-4 py-2 mx-auto my-4">
+            {{form.password2}}
+            </div>
+            <input class="
+            w-1/3 bg-gray-100 text-center rounded-lg px-4 py-2 m-4"  type="submit" value="Signup" />
+        </form>
+        
+        {% if messages %}
+            {% for message in messages %}
+            <div class="flex justify-center links text-white my-2">
+                {{ message }}
+            </div>
+            {% endfor %}
+        {% endif %}
+            
+        <div class="flex justify-center links text-white my-2">
+            Already have an account? <a href="{% url 'login' %}" class="ml-2 text-blue-500 underline">Login</a>
+        </div>
+        
+    </div>
+    <script>
+        var form_fields = document.getElementsByTagName('input')
+		form_fields[1].placeholder='Username..';
+		form_fields[2].placeholder='Email..';
+		form_fields[3].placeholder='Enter password...';
+		form_fields[4].placeholder='Re-enter Password...';
+
+
+		for (var field in form_fields){	
+			form_fields[field].className += ' form-control'
+		}
+    </script>
+</body>
+</html>

@@ -1,0 +1,178 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Euphoria</title>
+    <link rel="icon" href="{% static 'img/Euphoria.svg' %}" />
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <script src="{% static 'js/tailwindcss.js' %}"></script>
+</head>
+<body>
+<!-- Header -->
+ <header class="w-full overflow-x-hidden px-4 sm:px-6 lg:px-8">
+        <div class="w-[90%] mx-auto flex justify-between items-center py-4">
+            <div class="flex gap-4">
+            <div class="lg:hidden " id="menuBar">
+                <img src="{% static 'img/menu.svg' %}" alt="" />
+            </div>
+            <a class="" href="">
+                <img class="26px"  src="{% static 'img/Euphoria.svg' %}" alt="" />
+            </a>
+            </div>
+            <div class="hidden lg:flex space-x-6">
+            <a class="text-xl  text-gray-600" href="">Shop</a>
+            <a class="text-xl text-gray-600" href="">Men</a>
+            <a class="text-xl text-gray-600" href="">Women</a>
+            <a class="text-xl text-gray-600" href="">Combos</a>
+            <a class="text-xl text-gray-600" href="">Joggers</a>
+            </div>
+            <div class=" hidden md:flex  border border-gray-300 rounded-lg py-2 px-4 "  id="searchBar">
+            <img class="mx-1.5" src="{% static 'img/search.svg' %}" alt="" />
+            <input type="search" placeholder="Search" class="border-none" />
+            </div>
+            <div class="flex gap-2">
+            <span class="md:hidden"  onclick="toggleSearch()"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/search.svg' %}" alt="" /></span>
+            {% if user.is_authenticated %} 
+            <a href="{% url 'web:wishlistPage' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/wishlist.svg' %}" alt="" /></a>
+            {% else %}
+            <a href="{% url 'login' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/wishlist.svg' %}" alt="" /></a>
+            {% endif %}
+            <a href="{% url 'web:account' %}" id="profile">
+                {% if profile and profile.photo %}
+                    <img src="{{ profile.photo.url }}" alt="profile photo" class="w-8 h-8 rounded-lg object-cover" />
+                {% else %}
+                    <a href="{% url 'web:upload_photo' %}">
+                    <img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/profile.svg' %}" alt="Default Avatar" />
+                    </a>
+                {% endif %}
+            </a>
+            {% if user.is_authenticated %} 
+            <a href="{% url 'web:cart' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/add-cart.svg' %}" alt="" /></a>
+            {% else %}
+            <a href="{% url 'login' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/add-cart.svg' %}" alt="" /></a>
+            {% endif %}
+            </div>
+        </div>
+        <div class="hidden md:hidden bg-gray-700 text-center w-full " id="Toggle">
+            <img id="toggle-close" class="h-8" src="{% static 'img/close.svg' %}" alt="" />
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Shop</a>
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Men</a>
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Women</a>
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Combos</a>
+            <a class="block px-4 py-2 text-gray-100 hover:bg-gray-300" href="">Joggers</a>
+        </div>
+    </header>
+<!-- /Header -->
+<!-- product -->
+<div class="w-full my-8">
+    <div class="w-[90%] py-16 mx-auto text-left">
+        <a class="text-xl" href="{% url 'web:home' %}">Home</a>
+        <span class="text-xl">/Wishlist</span>
+    </div>
+    <div class="w-[90%] mx-auto">
+        {% if wishlist_items %}
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
+            {% for item in wishlist_items %}
+                <a href="{% url 'web:product' item.product.id %}">
+                <div>
+                    <div class="relative inline-block ">
+                        <img class="w-full h-96" src="{{ item.product.image.url }}" alt="{{ item.product.name }}" >
+                        <div class="absolute top-2 right-2">
+                            <form method="post" action="{% url 'web:wishlist' item.product.id %}">
+                                {% csrf_token %}
+                                <button type="submit">
+                                    <img class="p-2 rounded-full  bg-red-400" src="{% static 'img/wishlist.svg' %}" alt="wishlistIcon">
+                                </button>
+                            </form>
+                        </div>
+                        <div class="my-2 relative">
+                            <span class="text-base">{{ item.product.name }}</span>
+                            <br/>
+                            <span class="text-sm text-gray-500">{{ item.product.brand }}</span>
+                            <div class="w-16 h-8 bg-[#F6F6F6] absolute top-2 right-2 rounded-lg flex justify-center items-center">
+                                <span>${{ item.product.price }}</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+        </div>
+        {% else %}
+            <div class="text-xl text-center py-10 text-gray-500">
+                <P>Your wishlist is empty.</P>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<!-- /product -->
+<!-- Footer -->
+<footer class="bg-gray-900 text-gray-300 py-12">
+    <div class="w-[90%] mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-4 gap-8 border-b-[1px] border-[#BEBCBD]">
+        <div>
+            <h4 class="text-lg font-semibold text-white mb-4">Need Help</h4>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-white">Contact Us</a></li>
+                <li><a href="#" class="hover:text-white">Track Order</a></li>
+                <li><a href="#" class="hover:text-white">Returns & Refunds</a></li>
+                <li><a href="#" class="hover:text-white">FAQs</a></li>
+                <li><a href="#" class="hover:text-white">Career</a></li>
+                
+            </ul>
+            <div class="mt-16">
+                <div class="flex gap-4">
+                    <a href=""><img src="{% static 'img/facebook.svg' %}" alt=""></a>
+                    <a href=""><img src="{% static 'img/instagram.svg' %}" alt=""></a>
+                    <a href=""><img src="{% static 'img/twitter.svg' %}" alt=""></a>
+                    <a href=""><img src="{% static 'img/linkedin.svg' %}" alt=""></a>
+                </div>
+                </div>
+        </div>
+        <div>
+            <h4 class="text-lg font-semibold text-white mb-4">Company</h4>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-white">About Us</a></li>
+                <li><a href="#" class="hover:text-white">Euphoria Blog</a></li>
+                <li><a href="#" class="hover:text-white">Collaboration</a></li>
+                <li><a href="#" class="hover:text-white">Media</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-lg font-semibold text-white mb-4">More Info</h4>
+            <ul class="space-y-2">
+                <li><a href="#" class="hover:text-white">Terms and Conditions</a></li>
+                <li><a href="#" class="hover:text-white">Privacy Policy</a></li>
+                <li><a href="#" class="hover:text-white">Shipping Policy</a></li>
+                <li><a href="#" class="hover:text-white">Sitemap</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="text-lg font-semibold text-white mb-4">Location</h4>
+            <p class="text-sm">support@euphoria.in</p>
+            <p class="text-sm">Eklingpura Chouraha, Ahmedabad Main Road</p>
+            <p class="text-sm">INH 8 - Near Mahadev Hotel, Udaipur, India- 313002</p>
+            <div class="mt-16">
+            <h4 class="text-lgvmd:text-sm font-semibold text-white mt-6 mb-4">Download The App</h4>
+            <div class="flex gap-2 ">
+                <img src="{% static 'img/google-play.svg' %}" alt="Google Play" class="w-24 md:w-16">
+                <img src="{% static 'img/app-store.svg' %}" alt="App Store" class="w-24 md:w-16">
+            </div>
+            </div>
+        </div>
+    </div>
+    <div class="w-[90%] mx-auto">
+        <select class="w-full py-4 bg-transparent border-b-[1px] border-b-[#BEBCBD] text-2xl font-extrabold" name="" id="">
+            <option  class="w-50 text-black text-2xl" value="">Popular Categories</option>
+            <option class="w-50 bg-white text-black" value="">Popular Categories</option>
+        </select>
+    </div>
+    <div class="text-center text-sm text-gray-500 mt-8 ">
+        <p>Copyright © 2023 Euphoria Folks Pvt Ltd. All rights reserved.</p>
+    </div>
+</footer>
+<!-- /Footer -->
+<script src=""></script>
+</body>
+</html>
