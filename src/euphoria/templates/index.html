@@ -13,7 +13,7 @@
         <!-- Header -->
         <header class="w-full overflow-x-hidden px-4 sm:px-6 lg:px-8">
         <div class="w-[90%] mx-auto flex justify-between items-center py-4">
-            <div class="flex gap-4">
+            <div class="flex gap-4 py-4">
             <div class="lg:hidden " id="menuBar">
                 <img src="{% static 'img/menu.svg' %}" alt="" />
             </div>
@@ -21,25 +21,24 @@
                 <img class="26px"  src="{% static 'img/Euphoria.svg' %}" alt="" />
             </a>
             </div>
-            <div class="hidden lg:flex space-x-6">
+            <div class="hidden lg:flex space-x-8">
             <a class="text-xl  text-gray-600" href="">Shop</a>
             <a class="text-xl text-gray-600" href="">Men</a>
             <a class="text-xl text-gray-600" href="">Women</a>
             <a class="text-xl text-gray-600" href="">Combos</a>
             <a class="text-xl text-gray-600" href="">Joggers</a>
             </div>
-            <div class=" hidden md:flex  border border-gray-300 rounded-lg py-2 px-4 "  id="searchBar">
+            <div class=" hidden md:flex  bg-gray-100 rounded-lg py-2 px-4 gap-2 "  id="searchBar">
             <img class="mx-1.5" src="{% static 'img/search.svg' %}" alt="" />
-            <input type="search" placeholder="Search" class="border-none" />
+            <input type="search" placeholder="Search" class="border-none bg-gray-100" />
             </div>
-            <div class="flex gap-2">
+            <div class="flex space-x-4">
             <span class="md:hidden"  onclick="toggleSearch()"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/search.svg' %}" alt="" /></span>
             {% if user.is_authenticated %} 
             <a href="{% url 'web:wishlistPage' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/wishlist.svg' %}" alt="" /></a>
             {% else %}
             <a href="{% url 'login' %}"><img class="px-2 py-2 bg-gray-100 rounded-lg w-8" src="{% static 'img/wishlist.svg' %}" alt="" /></a>
             {% endif %}
-            <a href="{% url 'web:account' %}" id="profile">
                 {% if profile and profile.photo %}
                     <img src="{{ profile.photo.url }}" alt="profile photo" class="w-8 h-8 rounded-lg object-cover" />
                 {% else %}
@@ -71,7 +70,7 @@
             <div class=" h-auto">
                 <div class="mySlides fade">
                     <img class="w-full h-full" src="{% static 'img/slide-1.jpg' %}" >
-                    <div class="w-[55%] md:w-[18rem] lg:w-[18rem] absolute top-6 md:top-1/3 lg:top-1/3 left-14  md:left-16 lg:left-32 ">
+                    <div class="w-[55%] md:w-[18rem] lg:w-[21rem] absolute top-6 md:top-1/3 lg:top-1/3 left-14  md:left-16 lg:left-32 ">
                         <span class="text-lg md:text-2xl lg:text-2xl text-white ">T-shirt / Tops</span>
                         <h1 class="text-3xl md:text-6xl lg:text-6xl text-white py-2 md:py-4 lg:py-6">Summer Value Pack</h1>
                         <span class="text-base md:2xl lg:2xl text-white ">cool / colorful / comfy</span>
@@ -97,19 +96,18 @@
                     </div>
                 </div>
             </div>
-            <a class="prev absolute top-1/2 -translate-y-1/2 left-4 z-10 cursor-pointer" onclick="plusSlides(-1)">
+            <a class="prev absolute top-1/2 -translate-y-1/2 left-8 z-10 cursor-pointer" onclick="plusSlides(-1)">
                 <img src="{% static 'img/ChevronLeft.svg' %}" alt="">
-              </a>
-              
-              <a class="next absolute top-1/2 -translate-y-1/2 right-4 z-10 cursor-pointer" onclick="plusSlides(1)">
+            </a>
+            <a class="next absolute top-1/2 -translate-y-1/2 right-8 z-10 cursor-pointer" onclick="plusSlides(1)">
                 <img src="{% static 'img/ChevronRight.svg' %}" alt="">
-              </a>
+            </a>
         </div>
     </div>
     <!-- /Spotlight -->
     <!-- Card -->
-    <div class="w-full">
-        <ul class="w-[90%] mx-auto md:flex lg:flex gap-6 py-10">
+    <div class="w-full py-10">
+        <ul class="w-[90%] mx-auto md:flex lg:flex gap-6 py-14">
             <li class="relative w-full md:w-3/5 lg:w-3/5  h-72">
                 <img class="w-full h-full" src="{% static 'img/card-1.jpg' %}" >
                     <div class=" absolute top-8 left-8 w-1/2">
@@ -135,13 +133,13 @@
     <!-- New Arrival -->
     <div class="w-full">
         <div class="w-[90%] mx-auto">
-            <div class="flex gap-4 my-8 ">
+            <div class="flex gap-4 mb-10">
                 <img class="w-2 h-10" src="{% static 'img/icon.svg' %}" alt="">
                 <span class="text-3xl font-semibold">New Arrival</span>
             </div>
             <div class="relative w-full">
                 <div class="overflow-hidden relative rounded-lg w-[90%] mx-auto ">
-                    <div id="slider" class="flex gap-8 transition-transform duration-500 ease-in-out">
+                    <div id="slider" class="flex gap-8 transition-transform duration-500 my-6 ease-in-out">
                         {% for product in new_arrival  %}
                                 <div class="min-w-[70%] sm:min-w-[45%] md:min-w-[30%] lg:min-w-[22%] flex-shrink-0">
                                     <a href="{% url 'web:product' product.id %}">
@@ -167,7 +165,7 @@
     <div class="w-full py-8">
         <div class="w-[90%] mx-auto md:flex lg:flex">
             <div class=" relative w-full md:w-1/2 lg:w-1/2 ">
-                <img class="w-full rounded-lg" src="{% static 'img/bg-4.jpg' %}" alt="">
+                <img class="w-full rounded-lg mb:rounded-none lg:rounded-none" src="{% static 'img/bg-4.jpg' %}" alt="">
                 <div class="absolute w-full md:w-full lg:w-2/3  top-16 left-8">
                     <h5 class="text-3xl text-white">WE MADE YOUR EVERYDAY FASHION BETTER</h5>
                     <p class="text-l text-white my-2 w-4/5">In our journey to improve everyday fashion, euphoria presents EVERYDAY wear range - Comfortable & Affordable fashion 24/7</p>
@@ -175,7 +173,7 @@
                 </div>
             </div>
             <div class="w-full md:w-1/2 lg:w-1/2 ">
-                <img src="{% static 'img/bg-5.jpg' %}" alt="" class="h-full rounded-lg">
+                <img src="{% static 'img/bg-5.jpg' %}" alt="" class="h-full rounded-lg mb:rounded-none lg:rounded-none">
             </div>
         </div>
     </div>
@@ -183,11 +181,11 @@
     <!-- Categories For Men -->
     <div class="w-full my-16">
         <div class="w-[90%] mx-auto">
-            <div class="flex gap-4 my-8 ">
-                <img class="w-12 h-12" src="{% static 'img/icon.svg' %}" alt="">
+            <div class="flex gap-4 my-10 ">
+                <img src="{% static 'img/icon.svg' %}" alt="">
                 <span class="text-3xl font-semibold">Categories For Men</span>
             </div>
-            <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2 ">
+            <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 ">
                 {% for category in categories_of_men %}
                     <a href="{% url 'web:category' category.id %}">
                         <li class="relative">
@@ -195,7 +193,7 @@
                             <p class="text-base py-2 text-[#2A2F2F] font-bold">{{category.name}}</p>
                             <p class="text-sm">Explore Now!</p>
                             <div class="absolute bottom-4 right-8">
-                                <img src="" alt="">
+                                <img src="{% static 'img/Arrow.svg' %}">
                             </div>
                         </li>
                     </a>
@@ -208,10 +206,10 @@
     <div class="w-full my-16">
         <div class="w-[90%] mx-auto">
             <div class="flex gap-4 my-8 ">
-                <img class="w-12 h-12" src="{% static 'img/icon.svg' %}" alt="">
+                <img  src="{% static 'img/icon.svg' %}" alt="">
                 <span class="text-3xl font-semibold">Categories For Women</span>
             </div>
-            <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-2">
+            <ul class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {% for category in categories_of_women %}
                     <a href="{% url 'web:category' category.id %}">
                         <li class="relative">
@@ -219,7 +217,7 @@
                             <p class="text-base py-2 text-[#2A2F2F] font-bold">{{category.name}}</p>
                             <p class="text-sm">Explore Now!</p>
                             <div class="absolute bottom-4 right-8">
-                                <img src="" alt="">
+                                <img src="{% static 'img/Arrow.svg' %}" alt="">
                             </div>
                         </li>
                     </a>
@@ -231,22 +229,22 @@
     <!-- Brands -->
     <div class="w-full">
         <div class="w-[90%] mx-auto bg-[#3C4242] rounded-xl h-96 text-center">
-            <h4 class="text-6xl font-extrabold text-white pt-16">Top Brands Deal</h4>
+            <h4 class="text-5xl font-extrabold text-white pt-16">Top Brands Deal</h4>
             <p class="my-4 text-xl text-white font-normal">Up To <i class="text-[#FBD103] font-bold">60%</i> off on brands</p>
-            <ul class="w-4/5 mx-auto flex gap-4 pt-16">
-                <li class="w-60 h-30 bg-white rounded-xl flex items-center justify-center">
+            <ul class="w-4/5 mx-auto flex gap-6 pt-16">
+                <li class="w-60 h-45 bg-white rounded-xl flex items-center justify-center">
                     <img  src="{% static 'img/Brand1.svg' %}" alt="">
                 </li>
-                <li class="w-60 h-30 bg-white rounded-xl flex items-center justify-center">
+                <li class="w-60 h-45 bg-white rounded-xl flex items-center justify-center">
                     <img  src="{% static 'img/Brand2.svg' %}" alt="">
                 </li>
-                <li class="w-60 h-30 bg-white rounded-xl flex items-center justify-center">
+                <li class="w-60 h-45 bg-white rounded-xl flex items-center justify-center">
                     <img  src="{% static 'img/Brand3.svg' %}" alt="">
                 </li>
-                <li class="w-60 h-30 bg-white rounded-xl flex items-center justify-center">
+                <li class="w-60 h-45 bg-white rounded-xl flex items-center justify-center">
                     <img  src="{% static 'img/Brand4.svg' %}" alt="">
                 </li>
-                <li class="w-60 h-30 bg-white rounded-xl flex items-center justify-center">
+                <li class="w-60 h-45 bg-white rounded-xl flex items-center justify-center">
                     <img  src="{% static 'img/Brand5.svg' %}" alt="">
                 </li>
             </ul>
@@ -256,12 +254,12 @@
     <!-- In The Limelight -->
     <div class="w-full my-8">
         <div class="w-[90%] mx-auto">
-            <div class="flex gap-4 my-8 ">
-                <img class="w-12 h-12" src="{% static 'img/icon.svg' %}" alt="">
+            <div class="flex gap-4 py-8 ">
+                <img  src="{% static 'img/icon.svg' %}" alt="">
                 <span class="text-3xl font-semibold">In The Limelight</span>
             </div>
-            <div class="">
-                <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
+            <div >
+                <div class="my-8 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-4 gap-2">
                     {% for product in product %}
                     <a href="{% url 'web:product' product.id %}">
                     <div>
@@ -314,12 +312,12 @@
     <div class="w-full">
         <div class="w-[90%] mx-auto py-8">
             <div class="flex gap-4 my-8">
-                <img class="w-12 h-12" src="{% static 'img/icon.svg' %}" alt="">
+                <img  src="{% static 'img/icon.svg' %}" alt="">
                 <span class="text-3xl font-semibold">Feedback</span>
             </div>
             <div class="relative w-full">
                 <div class="overflow-hidden relative rounded-lg w-[90%] mx-auto">
-                <div id="slider_2" class="flex gap-8 transition-transform duration-500 ease-in-out">
+                <div id="slider_2" class="flex gap-8 transition-transform duration-500 ease-in-out my-8">
                     
                     {% for i in "12345" %}
                     <div class="slider-item-2 flex-shrink-0 border-[1.8px] border-gray-300 p-6 rounded-lg w-[70%]  md:w-[60%] lg:w-[33%]  shadow-sm relative">
@@ -348,7 +346,8 @@
     <!-- /Feedback -->
     <!-- Footer -->
     <footer class="bg-gray-900 text-gray-300 py-12">
-        <div class="w-[90%] mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-4 gap-8 border-b-[1px] border-[#BEBCBD]">
+        <div class="w-[90%] mx-auto px-6 py-6  border-b-[1px] border-[#BEBCBD]">
+            <div class="w-[90%] mx-auto px-6 py-6 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div>
                 <h4 class="text-lg font-semibold text-white mb-4">Need Help</h4>
                 <ul class="space-y-2">
@@ -391,7 +390,7 @@
                 <p class="text-sm">support@euphoria.in</p>
                 <p class="text-sm">Eklingpura Chouraha, Ahmedabad Main Road</p>
                 <p class="text-sm">INH 8 - Near Mahadev Hotel, Udaipur, India- 313002</p>
-                <div class="mt-16">
+                <div class="mt-20">
                 <h4 class="text-lgvmd:text-sm font-semibold text-white mt-6 mb-4">Download The App</h4>
                 <div class="flex gap-2 ">
                     <img src="{% static 'img/google-play.svg' %}" alt="Google Play" class="w-24 md:w-16">
@@ -399,6 +398,7 @@
                 </div>
                 </div>
             </div>
+        </div>
         </div>
         <div class="w-[90%] mx-auto">
             <select class="w-full py-4 bg-transparent border-b-[1px] border-b-[#BEBCBD] text-2xl font-extrabold" name="" id="">
